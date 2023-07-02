@@ -29,6 +29,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.protectAccountOwner = catchAsync(async (req, res, next) => {
   const { sessionUser } = req;
+  //ya que en este caso no existe el validUserMiddleware y fue reemplaza por un servicio usamos ese servicio para generar al user y comparar con el sessionUser de protec
   const { id } = req.params;
   const user = await new UserServices().findOne(id);
 

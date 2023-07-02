@@ -9,20 +9,20 @@ const sendErrorDev = (err, res) => {
   });
 };
 
-// const sendErrorProd = (err, res) => {
-//   if (err.isOperational) {
-//     res.status(err.statusCode).json({
-//       status: err.status,
-//       message: err.message,
-//     });
-//   } else {
-//     console.error('ERROR 🧨', err);
-//     res.status(500).json({
-//       status: 'fail',
-//       message: 'Something went very wrong!',
-//     });
-//   }
-// };
+const sendErrorProd = (err, res) => {
+  if (err.isOperational) {
+    res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+    });
+  } else {
+    console.error('ERROR 🧨', err);
+    res.status(500).json({
+      status: 'fail',
+      message: 'Something went very wrong!',
+    });
+  }
+};
 
 const globalErrorHandler = (err, req, res, next) => {
   console.log(err);
@@ -33,9 +33,9 @@ const globalErrorHandler = (err, req, res, next) => {
     sendErrorDev(err, res);
   }
 
-  // if (process.env.NODE_ENV === 'production') {
-  //   sendErrorProd(error, res);
-  // }
+  if (process.env.NODE_ENV === 'production') {
+    sendErrorProd(err, res);
+  }
 };
 
 module.exports = globalErrorHandler;
